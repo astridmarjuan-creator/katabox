@@ -167,3 +167,22 @@ create policy review_stats_owner on review_stats
 drop policy if exists review_log_owner on review_log;
 create policy review_log_owner on review_log
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+-- ---------------------------------------------------------------------------
+-- Table privileges. Supabase normally grants these by default for new
+-- objects, but it's not guaranteed on every project, and RLS policies above
+-- only take effect once a role already has table-level access. Without this,
+-- writes fail with "permission denied for table X" rather than an RLS error.
+-- ---------------------------------------------------------------------------
+
+grant usage on schema public to authenticated;
+
+grant select, insert, update, delete on
+  public.languages,
+  public.tags,
+  public.vocab,
+  public.synonyms,
+  public.vocab_tags,
+  public.review_stats,
+  public.review_log
+to authenticated;
