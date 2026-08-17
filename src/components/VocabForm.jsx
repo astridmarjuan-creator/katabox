@@ -137,7 +137,7 @@ export default function VocabForm({ languages, tagsApi, initial, onSubmit, onCan
         <div className="rounded-lg bg-rose-50 px-3 py-2 text-sm font-medium text-rose-600">{error}</div>
       )}
 
-      <div className="fixed inset-x-0 bottom-0 z-10 flex gap-2 border-t border-line bg-white/95 p-3 backdrop-blur sm:static sm:border-0 sm:bg-transparent sm:p-0">
+      <div className="fixed inset-x-0 bottom-20 z-20 flex gap-2 border-t border-line bg-white/95 p-3 backdrop-blur sm:static sm:border-0 sm:bg-transparent sm:p-0">
         {isEdit && onDelete && (
           <button type="button" className="btn-danger" onClick={onDelete}>
             Delete
