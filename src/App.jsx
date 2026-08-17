@@ -8,12 +8,15 @@ import Settings from './pages/Settings.jsx'
 import { useLanguages } from './hooks/useLanguages.js'
 import { useTags } from './hooks/useTags.js'
 import { useVocab } from './hooks/useVocab.js'
+import { useTerms } from './hooks/useTerms.js'
 
 const Stats = lazy(() => import('./pages/Stats.jsx'))
+const Terms = lazy(() => import('./pages/Terms.jsx'))
 
 const TABS = [
   { key: 'box', label: 'Card Box', icon: BoxIcon },
   { key: 'add', label: 'Add', icon: PlusIcon },
+  { key: 'terms', label: 'Terms', icon: TermsIcon },
   { key: 'review', label: 'Review', icon: ReviewIcon },
   { key: 'stats', label: 'Stats', icon: StatsIcon },
   { key: 'settings', label: 'Settings', icon: SettingsIcon },
@@ -44,6 +47,7 @@ function AuthenticatedApp() {
   const languagesApi = useLanguages()
   const tagsApi = useTags()
   const vocabApi = useVocab()
+  const termsApi = useTerms()
 
   const dueBadge = vocabApi.dueToday.length
 
@@ -70,6 +74,11 @@ function AuthenticatedApp() {
             vocabApi={vocabApi}
             onDone={() => setTab('box')}
           />
+        )}
+        {tab === 'terms' && (
+          <Suspense fallback={<div className="p-8 text-center text-sm text-ink/40">Loading…</div>}>
+            <Terms languages={languagesApi.languages} termsApi={termsApi} />
+          </Suspense>
         )}
         {tab === 'review' && <Review languages={languagesApi.languages} vocabApi={vocabApi} />}
         {tab === 'stats' && (
@@ -134,6 +143,19 @@ function PlusIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="none" {...props}>
       <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  )
+}
+function TermsIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path
+        d="M7 3h9a2 2 0 012 2v14l-4-2-4 2-4-2-4 2V8a5 5 0 015-5Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path d="M8 8h7M8 11.5h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   )
 }
