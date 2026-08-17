@@ -15,7 +15,7 @@ export default function FilterBar({ languages, tags, filters, onChange }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
       <select
-        className="field-input w-auto py-2 text-sm"
+        className="field-input w-auto py-2"
         value={filters.languageId}
         onChange={(e) => onChange({ ...filters, languageId: e.target.value })}
       >
@@ -28,7 +28,7 @@ export default function FilterBar({ languages, tags, filters, onChange }) {
       </select>
 
       <select
-        className="field-input w-auto py-2 text-sm"
+        className="field-input w-auto py-2"
         value={filters.partOfSpeech}
         onChange={(e) => onChange({ ...filters, partOfSpeech: e.target.value })}
       >

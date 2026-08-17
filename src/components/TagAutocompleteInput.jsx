@@ -59,7 +59,7 @@ export default function TagAutocompleteInput({ selected, onAdd, onRemove, sugges
         ))}
         <input
           ref={inputRef}
-          className="min-w-[100px] flex-1 border-none bg-transparent p-1 text-[15px] outline-none"
+          className="min-w-[100px] flex-1 border-none bg-transparent p-1 text-[16px] outline-none"
           value={text}
           onChange={(e) => {
             setText(e.target.value)

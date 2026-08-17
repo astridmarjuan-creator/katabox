@@ -39,7 +39,7 @@ export default function ChipInput({ values, onChange, placeholder }) {
         </span>
       ))}
       <input
-        className="min-w-[100px] flex-1 border-none bg-transparent p-1 text-[15px] outline-none"
+        className="min-w-[100px] flex-1 border-none bg-transparent p-1 text-[16px] outline-none"
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={handleKeyDown}
