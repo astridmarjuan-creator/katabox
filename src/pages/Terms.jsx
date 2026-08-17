@@ -65,7 +65,7 @@ export default function Terms({ languages, termsApi }) {
           placeholder="Search terms, descriptions, sources…"
         />
         <select
-          className="field-input w-auto py-2 text-sm"
+          className="field-input w-auto py-2"
           value={languageId}
           onChange={(e) => setLanguageId(e.target.value)}
         >
