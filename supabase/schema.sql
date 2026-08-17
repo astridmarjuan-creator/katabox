@@ -82,6 +82,21 @@ create table if not exists review_log (
 create index if not exists review_log_user_id_idx on review_log (user_id);
 create index if not exists review_log_reviewed_at_idx on review_log (reviewed_at);
 
+-- Standalone log of interesting/coined terms spotted while reading. Deliberately
+-- separate from vocab: no part of speech, tags, or SRS review — just a quick
+-- capture of term + language + description + where it was found.
+create table if not exists terms (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
+  language_id uuid not null references languages (id) on delete cascade,
+  term text not null,
+  description text not null,
+  source text,
+  date_added timestamptz not null default now()
+);
+create index if not exists terms_user_id_idx on terms (user_id);
+create index if not exists terms_language_id_idx on terms (language_id);
+
 -- ---------------------------------------------------------------------------
 -- Keep date_updated fresh + auto-create a review_stats row for new vocab
 -- ---------------------------------------------------------------------------
@@ -168,6 +183,12 @@ drop policy if exists review_log_owner on review_log;
 create policy review_log_owner on review_log
   for all using (user_id = auth.uid()) with check (user_id = auth.uid());
 
+alter table terms enable row level security;
+
+drop policy if exists terms_owner on terms;
+create policy terms_owner on terms
+  for all using (user_id = auth.uid()) with check (user_id = auth.uid());
+
 -- ---------------------------------------------------------------------------
 -- Table privileges. Supabase normally grants these by default for new
 -- objects, but it's not guaranteed on every project, and RLS policies above
@@ -184,5 +205,6 @@ grant select, insert, update, delete on
   public.synonyms,
   public.vocab_tags,
   public.review_stats,
-  public.review_log
+  public.review_log,
+  public.terms
 to authenticated;
