@@ -21,11 +21,6 @@ const TABS = [
 
 export default function App() {
   const { user, loading } = useAuth()
-  const [tab, setTab] = useState('box')
-
-  const languagesApi = useLanguages()
-  const tagsApi = useTags()
-  const vocabApi = useVocab()
 
   if (loading) {
     return (
@@ -36,6 +31,19 @@ export default function App() {
   }
 
   if (!user) return <Login />
+
+  // Mounted only once a session is confirmed, so the data hooks below never
+  // fire their first fetch before Supabase has attached the auth token —
+  // otherwise RLS silently returns zero rows and nothing here refetches.
+  return <AuthenticatedApp />
+}
+
+function AuthenticatedApp() {
+  const [tab, setTab] = useState('box')
+
+  const languagesApi = useLanguages()
+  const tagsApi = useTags()
+  const vocabApi = useVocab()
 
   const dueBadge = vocabApi.dueToday.length
 
